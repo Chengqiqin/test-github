@@ -1,0 +1,71 @@
+//2016 3.3 Cheng Qiqin
+//sizeyunsuan
+#include <iostream>
+#include<ctime>
+#include<cstdlib>
+#include<iomanip>
+using namespace std;
+#define N 20
+ 
+void main(){
+	int one,two, result;
+	int i,j;
+	int random(int,int);
+
+	char fuhao[4]={'+','-','*','/'};
+	for(j=0;j<N;j++){
+		i=random(0,4);                        //choice the opration symble
+	    one=random(0,100);                    //give the random number from one to one hundred  
+	    two=random(0,100);                    //give the random number from one to one hundred  
+	    if(i==3){                             //get rid of the sence that divisor is zero
+			while(two==0){
+			   two=random(0,100);
+		   }
+		   while(one%two!=0&&one>=two){        //proper fraction
+			   one=random(0,100);
+			   two=random(0,100);
+		   }  
+	    }
+		switch(i){     //get the result
+		case 0:        //the opration symble is add
+			result=one+two;
+			cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
+			break;
+	    case 1:        //the opration symble is sub
+			result=one-two;
+			cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
+			break;
+	    case 2:        //the opration symble is mul
+			result=one*two;
+			cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
+			break;
+		case 3:       //the opration symble is div
+			if(one%two==0){      //the sence that is divided with no remainder
+				result=one/two;
+			    cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
+			}
+			else{               //the sence that is divided with remainder and the result is proper fraction
+				int m=1;
+				int o=one;
+				int t=two;
+				while(m<=one){   //to get the fraction in lowest terms
+					for(m=2;m<=one;m++){
+						if(one%m==0&&two%m==0){
+							one=one/m;
+							two=two/m;
+							m=2;
+							break;
+						}
+					}
+				}
+				cout<<o<<fuhao[i]<<t<<"="<<one<<"/"<<two<<endl;
+			}
+			break;
+        default:
+			break;
+		}
+	}
+}
+int random(int start,int end){     //get the random number 
+	return start+(end-start)*rand()/(RAND_MAX+1);
+}
