@@ -6,66 +6,80 @@
 #include<iomanip>
 using namespace std;
 #define N 20
- 
-void main(){
-	int one,two, result;
-	int i,j;
-	int random(int,int);
 
+void main(){
+	int num1,num2,num3,num4;
+	int i,j,k;
+	cin>>i;
+	int random(int,int);
 	char fuhao[4]={'+','-','*','/'};
-	for(j=0;j<N;j++){
-		i=random(0,4);                        //choice the opration symble
-	    one=random(0,100);                    //give the random number from one to one hundred  
-	    two=random(0,100);                    //give the random number from one to one hundred  
-	    if(i==3){                             //get rid of the sence that divisor is zero
-			while(two==0){
-			   two=random(0,100);
-		   }
-		   while(one%two!=0&&one>=two){        //proper fraction
-			   one=random(0,100);
-			   two=random(0,100);
-		   }  
-	    }
-		switch(i){     //get the result
-		case 0:        //the opration symble is add
-			result=one+two;
-			cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
-			break;
-	    case 1:        //the opration symble is sub
-			result=one-two;
-			cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
-			break;
-	    case 2:        //the opration symble is mul
-			result=one*two;
-			cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
-			break;
-		case 3:       //the opration symble is div
-			if(one%two==0){      //the sence that is divided with no remainder
-				result=one/two;
-			    cout<<one<<fuhao[i]<<two<<"="<<result<<endl;
-			}
-			else{               //the sence that is divided with remainder and the result is proper fraction
-				int m=1;
-				int o=one;
-				int t=two;
-				while(m<=one){   //to get the fraction in lowest terms
-					for(m=2;m<=one;m++){
-						if(one%m==0&&two%m==0){
-							one=one/m;
-							two=two/m;
-							m=2;
-							break;
-						}
-					}
+	for(k=0;k<N;k++){
+		j=random(0,2);                  
+		if(j==0){//整数四则运算
+			i=random(0,4);                       //选择运算符
+	                num1=random(0,100);      
+	                num2=random(0,100); 
+			switch(i){     
+			case 0: //整数相加
+				cout<<num1<<fuhao[i]<<num2<<"="<<endl;
+			    break;
+			case 1: //整数相减
+				cout<<num1<<fuhao[i]<<num2<<"="<<endl;
+			    break;
+			case 2://整数相乘
+				cout<<num1<<fuhao[i]<<num2<<"="<<endl;
+				break;
+		        case 3: //整数相除
+				while(num2==0){//除数不为0
+					num2=random(0,100);
 				}
-				cout<<o<<fuhao[i]<<t<<"="<<one<<"/"<<two<<endl;
+				cout<<num1<<fuhao[i]<<num2<<"="<<endl;
+				break;
+			default:
+				break;
 			}
-			break;
-        default:
-			break;
+		}
+		else{//真分数四则运算
+			i=random(0,4);                        
+	                num1=random(0,100);                     
+	                num2=random(0,100);                   
+			while(num2==0||num1>=num2){//分数分母不为0并且分子不能大于分母
+					num1=random(0,100);
+					num2=random(0,100);  
+			}
+	                num3=random(0,100);                     
+	                num4=random(0,100); 
+			while(num4==0||num3>=num4){//分数分母不为0并且分子不能大于分母
+					num3=random(0,100);
+					num4=random(0,100);
+			}
+			switch(i){     
+			case 0:        //分数相加
+				cout<<num1<<"/"<<num2<<fuhao[i]<<num3<<"/"<<num4<<"="<<endl;
+			    break;
+			case 1:        //分数相减
+				cout<<num1<<"/"<<num2<<fuhao[i]<<num3<<"/"<<num4<<"="<<endl;
+			    break;
+			case 2:        //分数相乘
+				cout<<"("<<num1<<"/"<<num2<<")"<<fuhao[i]<<"("<<num3<<"/"<<num4<<")"<<"="<<endl;
+				break;
+		        case 3:       //分数相除
+				while(num3==0){//作为分母的分数不为0
+					num3=random(0,100);
+					while(num3>=num4){        
+						num3=random(0,100);
+			            num4=random(0,100);
+					}  
+				}
+				cout<<"("<<num1<<"/"<<num2<<")"<<fuhao[i]<<"("<<num3<<"/"<<num4<<")"<<"="<<endl;
+				break;
+			default:
+				break;
+			}
 		}
 	}
 }
-int random(int start,int end){     //get the random number 
+
+int random(int start,int end){     //随机数函数 
 	return start+(end-start)*rand()/(RAND_MAX+1);
 }
