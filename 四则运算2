@@ -114,21 +114,25 @@ void main()
 {
 	srand((int)time(0));    //设定时间种子
 	int ProNum,type,isMulAndDiv,isParenthese,RangeNum,isNeg,isRemainder;
-	int number[1000][10],Prolength[100],Rbr=0,num,i,j,n; //number[1000][10]用于存放每个表达式中数字,Prolength[100]用于记录表达式的长度
-	char Problems[1000][100];// Problems[1000][100]用于存放表达式
-	char fuhao[4]={'+','-','*','/'};//用于存放操作符号
+	int number[100][10],Prolength[100],Rbr=0,num,i,j,n; //number[100][10]用于存放每个表达式中数字,Prolength[100]用于记录表达式的长度
+	char Problems[100][100];// Problems[100][100]用于存放表达式
+	char fuhao[4]={'+','-','*','/'};
 	proNum(ProNum);
 	typeway(type);
 	ismulAndDiv(isMulAndDiv);
 	isparenthese(isParenthese);
 	isneg(isNeg);
-	if(isMulAndDiv==1)//选择了有乘除法才需要考虑是否有余数的问题
+	if(isMulAndDiv==1)
 	{
 		isremainder(isRemainder);
 	}
 	cout<<"请输入数值范围："<<endl;
 	cout<<"请输入上限：";
 	cin>>RangeNum;
+	if(RangeNum<1){
+		cout<<"输入错误，请重新输入上限：";
+	    cin>>RangeNum;
+	}
 
 	if(isParenthese==1)//有括号
 	{
@@ -217,14 +221,14 @@ void main()
 				{
 					Rbr--;
 					loc--;
-					if(Problems[i][j-2]=='(')//排除括号形如（20）的情况
+					if(Problems[i][j-2]=='(')//排除形如（20）的情况
 					{
 						Problems[i][j-2]=Problems[i][j-1]; 
 						j--; 
 					}
 					else
 					{
-						if(Problems[i][leftParenthese[loc]]=='('&&Problems[i][leftParenthese[loc]+1]=='('&&Problems[i][j-1]==')')//排除无意义的括号
+						if(Problems[i][leftParenthese[loc]]=='('&&Problems[i][leftParenthese[loc]+1]=='('&&Problems[i][j-1]==')')
 						{
 							for(int loction=leftParenthese[loc];loction<j-1;loction++)
 							{
@@ -290,7 +294,7 @@ void main()
 		s=0;
 		t=0;
 		q=Prolength[i];
-		if(Problems[i][s]=='('&&Problems[i][q-1]==')')//排除表达式首尾都有括号且无意义时的情况
+		while(Problems[i][s]=='('&&Problems[i][q-1]==')')//排除表达式首尾都有括号且无意义时的情况
 		{
 			int m,n=0;
 			bool kuohao=true;
@@ -310,11 +314,15 @@ void main()
 					break;
 				}
 			}
-			if(kuohao)//表达式首尾都有括号且无意义时
+			if(kuohao)
 			{
 				s++;
 			    Prolength[i]=Prolength[i]-2;
 			    q=q-1;
+			}
+			else
+			{
+				break;
 			}
 		}
 		while(Prolength[i]>0)
@@ -323,14 +331,14 @@ void main()
 			{
 				if(t>0)
 				{
-					if(isNeg==2)//要求减法无负数时
+					if(isNeg==2)
 					{
 						if(Problems[i][s-1]=='-'&&Problems[i][s-2]=='n')
 						{
 							Neg(number[i][t-1],number[i][t],RangeNum);
 						}
 					}
-					if(isRemainder==2)//要求除法无余数时
+					if(isRemainder==2)
 					{
 						if(Problems[i][s-1]=='/'&&Problems[i][s-2]=='n')
 						{
